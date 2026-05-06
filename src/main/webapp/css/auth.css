@@ -1,0 +1,80 @@
+:root {
+    --azul-1: #0f172a; --azul-2: #1d4ed8; --azul-3: #3b82f6;
+    --texto: #0f172a; --cinza: #64748b;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 25%),
+                linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Segoe UI", sans-serif; padding: 24px; margin: 0;
+}
+
+/* Containers */
+.auth-shell, .cadastro-card {
+    width: 100%;
+    background: rgba(255,255,255,0.96);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(15,23,42,0.14);
+}
+
+.auth-shell { max-width: 1000px; }
+.cadastro-card { max-width: 600px; }
+
+/* Lados do Login */
+.auth-left {
+    background: linear-gradient(160deg, var(--azul-1) 0%, var(--azul-2) 58%, var(--azul-3) 100%);
+    color: #fff;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.auth-right {
+    padding: 50px 40px;
+}
+
+/* Topo do Cadastro */
+.cadastro-topo {
+    background: linear-gradient(135deg, var(--azul-1), var(--azul-2), var(--azul-3));
+    color: #fff;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Detalhes */
+.auth-badge, .cadastro-topo-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.18);
+    padding: 8px 16px; border-radius: 999px; margin-bottom: 20px; font-weight: 700;
+}
+
+.auth-title { color: var(--texto); font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
+
+/* Inputs e Botões */
+.form-control, .form-select {
+    border: 1px solid #dbeafe; border-radius: 14px;
+    padding: 12px; min-height: 50px;
+}
+
+.input-group-text {
+    background: #eff6ff; border: 1px solid #dbeafe;
+    color: var(--azul-2); border-radius: 14px 0 0 14px;
+}
+
+/* O input que vai com o ícone precisa perder o arredondamento da esquerda */
+.input-group .form-control { border-radius: 0 14px 14px 0; }
+
+.btn-entrar, .btn-cadastrar {
+    background: linear-gradient(135deg, var(--azul-2), var(--azul-3));
+    border: none; border-radius: 14px; min-height: 52px;
+    font-weight: 700; color: white !important;
+    box-shadow: 0 10px 20px rgba(29,78,216,0.2);
+    transition: 0.3s;
+}
+
+.btn-entrar:hover, .btn-cadastrar:hover { transform: translateY(-2px); opacity: 0.9; }

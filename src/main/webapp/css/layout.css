@@ -1,0 +1,166 @@
+:root {
+    --azul-1: #0f172a; --azul-2: #1d4ed8; --azul-3: #3b82f6; --azul-4: #dbeafe;
+    --texto: #0f172a; --cinza-3: #64748b;
+    --sombra: 0 14px 40px rgba(15, 23, 42, 0.10);
+    --sombra-card: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+body {
+    background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.10), transparent 28%),
+                linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+    color: var(--texto); font-family: "Segoe UI", sans-serif; min-height: 100vh;
+}
+
+/* Navbar Estilizada */
+.navbar-sistema {
+    background: linear-gradient(90deg, var(--azul-1), var(--azul-2));
+    box-shadow: var(--sombra); padding: 12px 0;
+}
+
+.brand-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 12px;
+    background: rgba(255,255,255,0.14); margin-right: 10px;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.8) !important; font-weight: 500;
+    border-radius: 10px; padding: 8px 15px !important; transition: 0.2s;
+}
+
+.nav-link:hover { color: #fff !important; background: rgba(255,255,255,0.1); }
+
+.nav-link-sair { color: #facc15 !important; font-weight: 700 !important; }
+
+/* Cards Para as páginas interna */
+.hero-box {
+    background: rgba(255,255,255,0.8); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.6); border-radius: 24px;
+    padding: 30px; margin-bottom: 30px; box-shadow: var(--sombra-card);
+}
+
+.card-atalho {
+    text-decoration: none !important;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    display: block;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+    border: 1px solid #eef2f7;
+}
+
+.card-atalho:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(29, 78, 216, 0.1);
+}
+
+.card-atalho i {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    display: block;
+    color: var(--azul-2);
+}
+
+.card-atalho h5 {
+    color: var(--texto);
+    font-weight: 700;
+}
+
+.card-atalho p {
+    color: var(--cinza-3);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Container de Conteúdo */
+.page-shell { padding: 40px 0; }
+
+/* Cards de Conteúdo (Hero, Form, Tabelas) */
+.form-card, .table-wrap, .hero-top {
+    background: rgba(255,255,255,0.96);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    border: 1px solid #eef2f7;
+    margin-bottom: 24px;
+}
+
+/* Hero Section */
+.hero-kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #dbeafe; color: #1d4ed8;
+    border-radius: 999px; padding: 6px 14px;
+    font-size: 0.85rem; font-weight: 700; margin-bottom: 15px;
+}
+
+/* Info Cards quadradinhos de dados */
+.mini-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+.mini-info-card { 
+    border-radius: 16px; padding: 15px; 
+    background: #f8fbff; border: 1px solid #dbeafe; 
+}
+.mini-info-label { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
+.mini-info-value { font-size: 1.1rem; font-weight: 700; color: #0f172a; margin: 0; }
+
+/* Tabelas*/
+.table thead th {
+    background: linear-gradient(90deg, #0f172a, #1e293b);
+    color: white; border: none; padding: 15px; font-weight: 600;
+}
+.table tbody td { padding: 15px; vertical-align: middle; }
+.curso-pill {
+    background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe;
+    border-radius: 999px; padding: 5px 12px; font-size: 0.85rem; font-weight: 700;
+}
+
+
+/* Específico para Comentários */
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.comentario-texto {
+    max-width: 250px;
+    white-space: normal;
+    line-height: 1.4;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.tipo-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 90px; border-radius: 999px;
+    padding: 5px 12px; font-size: 0.75rem; font-weight: 700;
+}
+.tipo-aluno { background: #dcfce7; color: #15803d; }
+.tipo-professor { background: #ede9fe; color: #7c3aed; }
+
+/* Cards clicáveis para Cursos e Aulas */
+.card-estudo {
+    background: rgba(255,255,255,0.96);
+    border: 1px solid #eef2f7;
+    border-radius: 24px;
+    padding: 25px;
+    height: 100%;
+    transition: 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+}
+
+.card-estudo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(29, 78, 216, 0.12);
+    border-color: var(--azul-3);
+}
+
+.icon-box {
+    width: 50px; height: 50px;
+    border-radius: 14px;
+    background: #eff6ff;
+    color: var(--azul-2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 15px;
+}
