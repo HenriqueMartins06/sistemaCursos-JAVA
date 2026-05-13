@@ -83,8 +83,8 @@
                         <td class="text-center">
                             <a href="inscricao?acao=excluir&id_curso=<%= i.getIdCurso() %>"
                                class="btn btn-sm btn-danger fw-bold px-3"
-                               onclick="return confirm('Excluir inscrição?');">
-                                Excluir
+                               onclick="return confirm('Cancelar inscrição?');">
+                                Cancelar inscrição
                             </a>
                         </td>
                     </tr>
