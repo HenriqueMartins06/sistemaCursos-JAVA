@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.*;
@@ -35,16 +36,13 @@ public class InscricaoServlet extends HttpServlet {
             return;
         }
 
-        // Dados do aluno logado
         Usuario aluno = usuarioDAO.buscarPorId(idAlunoSessao);
         request.setAttribute("aluno", aluno);
 
-        // Cursos disponíveis
         request.setAttribute("listaCursos", cursoDAO.listar());
 
         String acao = request.getParameter("acao");
 
-        // apenas do cara logado
         if (acao == null) {
             List<Inscricao> lista = inscricaoDAO.listarPorAluno(idAlunoSessao);
             request.setAttribute("listaInscricao", lista);
@@ -52,19 +50,6 @@ public class InscricaoServlet extends HttpServlet {
             return;
         }
 
-        // EDITAR
-        if ("editar".equals(acao)) {
-            int idCurso = Integer.parseInt(request.getParameter("id_curso"));
-
-            Inscricao ins = inscricaoDAO.buscar(idAlunoSessao, idCurso);
-
-            request.setAttribute("inscricao", ins);
-            request.setAttribute("listaInscricao", inscricaoDAO.listarPorAluno(idAlunoSessao));
-            request.getRequestDispatcher("inscricao.jsp").forward(request, response);
-            return;
-        }
-
-        // EXCLUIR
         if ("excluir".equals(acao)) {
             int idCurso = Integer.parseInt(request.getParameter("id_curso"));
 
@@ -87,18 +72,20 @@ public class InscricaoServlet extends HttpServlet {
 
         int idUsuario = idUsuarioSessao;
         int idCurso = Integer.parseInt(request.getParameter("id_curso"));
-        String data = request.getParameter("data_inscricao");
+
+        if (inscricaoDAO.alunoEstaInscrito(idUsuario, idCurso)) {
+            response.sendRedirect("inscricao");
+            return;
+        }
+
+        String dataAtual = LocalDate.now().toString();
 
         Inscricao i = new Inscricao();
         i.setIdUsuario(idUsuario);
         i.setIdCurso(idCurso);
-        i.setDataInscricao(data);
+        i.setDataInscricao(dataAtual);
 
-        if (request.getParameter("editando") != null && !request.getParameter("editando").isEmpty()) {
-            inscricaoDAO.atualizar(i);
-        } else {
-            inscricaoDAO.inserir(i);
-        }
+        inscricaoDAO.inserir(i);
 
         response.sendRedirect("inscricao");
     }
