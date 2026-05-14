@@ -23,18 +23,21 @@ public class ComentarioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    	request.setCharacterEncoding("UTF-8");
-    	response.setCharacterEncoding("UTF-8");
-    	
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession(false);
-        if (session == null) { response.sendRedirect("login.jsp"); return; }
+
+        if (session == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         int idUsuario = (int) session.getAttribute("id_usuario");
         int tipoUsuario = (int) session.getAttribute("tipo_usuario");
 
         String acao = request.getParameter("acao");
 
-        // LISTAR
         if (acao == null) {
 
             List<Curso> cursos = (tipoUsuario == 1)
@@ -49,8 +52,8 @@ public class ComentarioServlet extends HttpServlet {
                     ? comentarioDAO.listarPorCursos(idsCursos)
                     : comentarioDAO.listar();
 
-            //  Carrega aula ao escolher curso
             String cursoIdStr = request.getParameter("cursoId");
+
             if (cursoIdStr != null && !cursoIdStr.isEmpty()) {
                 int cursoId = Integer.parseInt(cursoIdStr);
                 List<Aula> aulas = aulaDAO.listarPorCurso(cursoId);
@@ -63,17 +66,19 @@ public class ComentarioServlet extends HttpServlet {
             return;
         }
 
-        // Edita / verifica a permisao 
         if (acao.equals("editar")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Comentario c = comentarioDAO.buscarPorId(id);
 
-            if (c == null) { response.sendRedirect("comentarios"); return; }
+            if (c == null) {
+                session.setAttribute("mensagemErro", "Comentário não encontrado.");
+                response.sendRedirect("comentarios");
+                return;
+            }
 
-            // PROFESSOR pode tudo
-            // ALUNO só pode editar o próprio comentário
             if (tipoUsuario == 2 && c.getIdUsuario() != idUsuario) {
-                response.getWriter().println("ERRO: Você não pode editar comentários de outros usuários.");
+                session.setAttribute("mensagemErro", "Você não pode editar comentários de outros usuários.");
+                response.sendRedirect("comentarios");
                 return;
             }
 
@@ -91,22 +96,26 @@ public class ComentarioServlet extends HttpServlet {
             return;
         }
 
-        // Excluir/ ver permisao
         if (acao.equals("excluir")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Comentario c = comentarioDAO.buscarPorId(id);
 
-            if (c == null) { response.sendRedirect("comentarios"); return; }
+            if (c == null) {
+                session.setAttribute("mensagemErro", "Comentário não encontrado.");
+                response.sendRedirect("comentarios");
+                return;
+            }
 
-            // Professor pode excluir qualquer
-            // Aluno só pode excluir o seu
             if (tipoUsuario == 2 && c.getIdUsuario() != idUsuario) {
-                response.getWriter().println("ERRO: Você não pode excluir comentários de outros usuários.");
+                session.setAttribute("mensagemErro", "Você não pode excluir comentários de outros usuários.");
+                response.sendRedirect("comentarios");
                 return;
             }
 
             comentarioDAO.excluir(id);
+            session.setAttribute("mensagemSucesso", "Comentário excluído com sucesso.");
             response.sendRedirect("comentarios");
+            return;
         }
     }
 
@@ -114,8 +123,15 @@ public class ComentarioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession(false);
-        if (session == null) { response.sendRedirect("login.jsp"); return; }
+
+        if (session == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         int idUsuario = (int) session.getAttribute("id_usuario");
         int tipoUsuario = (int) session.getAttribute("tipo_usuario");
@@ -127,15 +143,15 @@ public class ComentarioServlet extends HttpServlet {
         String idAulaStr = request.getParameter("idAula");
         Integer idAula = (idAulaStr == null || idAulaStr.isEmpty()) ? null : Integer.parseInt(idAulaStr);
 
-        // Aluno tem q ta inscrito
         if (tipoUsuario == 2 && !inscricaoDAO.alunoEstaInscrito(idUsuario, idCurso)) {
-            response.getWriter().println("ERRO: Você não está inscrito neste curso.");
+            session.setAttribute("mensagemErro", "Você precisa estar inscrito no curso para comentar.");
+            response.sendRedirect("comentarios");
             return;
         }
 
-        // professor tem q ser o dono do curso
         if (tipoUsuario == 1 && !cursoDAO.professorTemCurso(idUsuario, idCurso)) {
-            response.getWriter().println("ERRO: Você não pode comentar neste curso.");
+            session.setAttribute("mensagemErro", "Você não pode comentar em um curso de outro professor.");
+            response.sendRedirect("comentarios");
             return;
         }
 
@@ -144,28 +160,28 @@ public class ComentarioServlet extends HttpServlet {
         c.setIdAula(idAula);
         c.setTexto(texto);
 
-        // NOVO COMENTÁRIO
         if (idComentario == null || idComentario.isEmpty()) {
             c.setIdUsuario(idUsuario);
             comentarioDAO.inserir(c);
-        }
-        // edita e verifica a permisao 
-        else {
+            session.setAttribute("mensagemSucesso", "Comentário realizado com sucesso.");
+        } else {
             Comentario antigo = comentarioDAO.buscarPorId(Integer.parseInt(idComentario));
 
             if (antigo == null) {
+                session.setAttribute("mensagemErro", "Comentário não encontrado.");
                 response.sendRedirect("comentarios");
                 return;
             }
 
-            // aluno so edita o proprio
             if (tipoUsuario == 2 && antigo.getIdUsuario() != idUsuario) {
-                response.getWriter().println("ERRO: Você não pode editar comentários de outros usuários.");
+                session.setAttribute("mensagemErro", "Você não pode editar comentários de outros usuários.");
+                response.sendRedirect("comentarios");
                 return;
             }
 
             c.setIdComentario(Integer.parseInt(idComentario));
             comentarioDAO.atualizar(c);
+            session.setAttribute("mensagemSucesso", "Comentário atualizado com sucesso.");
         }
 
         response.sendRedirect("comentarios");

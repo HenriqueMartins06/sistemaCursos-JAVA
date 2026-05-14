@@ -54,6 +54,7 @@ public class InscricaoServlet extends HttpServlet {
             int idCurso = Integer.parseInt(request.getParameter("id_curso"));
 
             inscricaoDAO.excluir(idAlunoSessao, idCurso);
+            request.getSession().setAttribute("mensagemSucesso", "Inscrição excluída com sucesso.");
             response.sendRedirect("inscricao");
         }
     }
@@ -74,6 +75,7 @@ public class InscricaoServlet extends HttpServlet {
         int idCurso = Integer.parseInt(request.getParameter("id_curso"));
 
         if (inscricaoDAO.alunoEstaInscrito(idUsuario, idCurso)) {
+            request.getSession().setAttribute("mensagemErro", "Você já está inscrito neste curso.");
             response.sendRedirect("inscricao");
             return;
         }
@@ -86,6 +88,7 @@ public class InscricaoServlet extends HttpServlet {
         i.setDataInscricao(dataAtual);
 
         inscricaoDAO.inserir(i);
+        request.getSession().setAttribute("mensagemSucesso", "Inscrição realizada com sucesso.");
 
         response.sendRedirect("inscricao");
     }

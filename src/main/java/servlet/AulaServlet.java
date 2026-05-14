@@ -64,6 +64,7 @@ public class AulaServlet extends HttpServlet {
         else if (acao.equals("excluir")) {
             int id = Integer.parseInt(request.getParameter("id"));
             aulaDAO.excluir(id);
+            request.getSession().setAttribute("mensagemSucesso", "Aula excluída com sucesso.");
             response.sendRedirect("aula");
         }
     }
@@ -86,10 +87,10 @@ public class AulaServlet extends HttpServlet {
         if (idAula != null && !idAula.isEmpty()) {
             aula.setIdAula(Integer.parseInt(idAula));
             aulaDAO.atualizar(aula);
-        }
-        // Inseri
-        else {
+            request.getSession().setAttribute("mensagemSucesso", "Aula atualizada com sucesso.");
+        } else {
             aulaDAO.inserir(aula);
+            request.getSession().setAttribute("mensagemSucesso", "Aula cadastrada com sucesso.");
         }
 
         response.sendRedirect("aula");
