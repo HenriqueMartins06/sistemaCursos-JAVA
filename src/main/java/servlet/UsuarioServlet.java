@@ -69,11 +69,14 @@ public class UsuarioServlet extends HttpServlet {
         usuario.setEmail(email);
         usuario.setSenha(senha);
         usuario.setTipoUsuario(tipo);
-
+        
+        // atualiazr
         if (idUsuario != null && !idUsuario.isEmpty()) {
             usuario.setIdUsuario(Integer.parseInt(idUsuario));
             usuarioDAO.atualizar(usuario);
             request.getSession().setAttribute("mensagemSucesso", "Usuário atualizado com sucesso.");
+            
+         // Inserir
         } else {
             usuarioDAO.inserir(usuario);
             request.getSession().setAttribute("mensagemSucesso", "Usuário cadastrado com sucesso.");

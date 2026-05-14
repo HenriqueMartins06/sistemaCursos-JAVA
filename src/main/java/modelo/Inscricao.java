@@ -1,19 +1,18 @@
 package modelo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Inscricao {
 
     private int idUsuario;
     private int idCurso;
     private String dataInscricao;
 
-    // Necessário para edição da inscrição (curso antigo)
     private int idCursoAntigo;
 
-    //  EXIBIR NA TABELA
     private String nomeAluno;
     private String nomeCurso;
-
-    // GETTERS E SETTERS
 
     public int getIdUsuario() {
         return idUsuario;
@@ -39,6 +38,20 @@ public class Inscricao {
         this.dataInscricao = dataInscricao;
     }
 
+    public String getDataInscricaoFormatada() {
+        if (dataInscricao == null || dataInscricao.isEmpty()) {
+            return "";
+        }
+
+        try {
+            LocalDate data = LocalDate.parse(dataInscricao);
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            return data.format(formato);
+        } catch (Exception e) {
+            return dataInscricao;
+        }
+    }
+
     public int getIdCursoAntigo() {
         return idCursoAntigo;
     }
@@ -46,8 +59,6 @@ public class Inscricao {
     public void setIdCursoAntigo(int idCursoAntigo) {
         this.idCursoAntigo = idCursoAntigo;
     }
-
-    //  GETTERS E SETTERS NOVOS
 
     public String getNomeAluno() {
         return nomeAluno;
@@ -65,4 +76,3 @@ public class Inscricao {
         this.nomeCurso = nomeCurso;
     }
 }
- 

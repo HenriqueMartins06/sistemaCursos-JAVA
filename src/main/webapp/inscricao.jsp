@@ -79,7 +79,7 @@
 
                     <tr>
                         <td><span class="curso-pill"><%= i.getNomeCurso() %></span></td>
-                        <td><%= i.getDataInscricao() %></td>
+                        <td><%= i.getDataInscricaoFormatada() %></td>
                         <td class="text-center">
                             <a href="inscricao?acao=excluir&id_curso=<%= i.getIdCurso() %>"
                                class="btn btn-sm btn-danger fw-bold px-3"
