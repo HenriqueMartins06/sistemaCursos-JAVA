@@ -60,7 +60,7 @@
 
     <div class="table-wrap overflow-hidden p-0">
         <div class="p-4">
-            <h4 class="fw-bold m-0">Histórico</h4>
+            <h4 class="fw-bold m-0">Histórico de inscrições</h4>
         </div>
 
         <div class="table-responsive">
