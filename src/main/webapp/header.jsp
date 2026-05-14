@@ -22,7 +22,7 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center fw-bold" href="<%= homeLink %>">
             <span class="brand-badge"><i class="bi bi-mortarboard-fill"></i></span>
-            SistemaCursos
+            Sistema de Cursos online
         </a>
 
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#menuGeral">

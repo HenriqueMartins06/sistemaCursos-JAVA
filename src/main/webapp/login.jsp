@@ -19,7 +19,7 @@
             <div class="auth-left h-100">
                 <div class="auth-badge">
                     <i class="bi bi-mortarboard-fill"></i> 
-                    SistemaCursos
+                    Sistema de cursos online
                 </div>
                 <h1>Gerencie cursos, aulas e inscrições em um só lugar</h1>
                 <p>Entre no sistema para acessar seu painel, organizar conteúdos e acompanhar o ambiente acadêmico.</p>

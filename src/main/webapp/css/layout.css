@@ -41,36 +41,47 @@ body {
 
 .card-atalho {
     text-decoration: none !important;
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
+    background: #fff;
+    padding: 28px;
+    border-radius: 24px;
     display: block;
     height: 100%;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    transition: 0.3s;
-    border: 1px solid #eef2f7;
+    min-height: 220px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+    transition: 0.25s;
 }
 
 .card-atalho:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(29, 78, 216, 0.1);
+    transform: translateY(-6px);
+    border-color: #93c5fd;
+    box-shadow: 0 18px 35px rgba(29, 78, 216, 0.15);
 }
 
 .card-atalho i {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    display: block;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: #eff6ff;
     color: var(--azul-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    margin-bottom: 18px;
 }
 
 .card-atalho h5 {
     color: var(--texto);
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
 }
 
 .card-atalho p {
     color: var(--cinza-3);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
     margin-bottom: 0;
 }
 
