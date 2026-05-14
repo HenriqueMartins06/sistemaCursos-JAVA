@@ -51,6 +51,7 @@ public class CursoServlet extends HttpServlet {
         else if (acao.equals("excluir")) {
             int id = Integer.parseInt(request.getParameter("id"));
             cursoDAO.excluir(id);
+            request.getSession().setAttribute("mensagemSucesso", "Curso excluído com sucesso.");
             response.sendRedirect("curso");
         }
     }
@@ -80,8 +81,10 @@ public class CursoServlet extends HttpServlet {
         if (idCurso != null && !idCurso.isEmpty()) {
             curso.setIdCurso(Integer.parseInt(idCurso));
             cursoDAO.atualizar(curso);
+            request.getSession().setAttribute("mensagemSucesso", "Curso atualizado com sucesso.");
         } else {
             cursoDAO.inserir(curso);
+            request.getSession().setAttribute("mensagemSucesso", "Curso cadastrado com sucesso.");
         }
 
         response.sendRedirect("curso");

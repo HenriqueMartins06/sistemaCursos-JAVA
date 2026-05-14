@@ -49,6 +49,7 @@ public class UsuarioServlet extends HttpServlet {
         else if (acao.equals("excluir")) {
             int id = Integer.parseInt(request.getParameter("id"));
             usuarioDAO.excluir(id);
+            request.getSession().setAttribute("mensagemSucesso", "Usuário excluído com sucesso.");
             response.sendRedirect("usuario");
         }
     }
@@ -69,14 +70,13 @@ public class UsuarioServlet extends HttpServlet {
         usuario.setSenha(senha);
         usuario.setTipoUsuario(tipo);
 
-        // atualiazr
         if (idUsuario != null && !idUsuario.isEmpty()) {
             usuario.setIdUsuario(Integer.parseInt(idUsuario));
             usuarioDAO.atualizar(usuario);
-        }
-        // Inserir
-        else {
+            request.getSession().setAttribute("mensagemSucesso", "Usuário atualizado com sucesso.");
+        } else {
             usuarioDAO.inserir(usuario);
+            request.getSession().setAttribute("mensagemSucesso", "Usuário cadastrado com sucesso.");
         }
 
         response.sendRedirect("usuario");
