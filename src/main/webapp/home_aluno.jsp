@@ -79,6 +79,17 @@
                     <span class="card-atalho-action">Acessar <i class="bi bi-arrow-right"></i></span>
                 </a>
             </div>
+            
+            <div class="col-md-6 col-lg-3">
+    <a href="relatorioAluno" class="card-atalho">
+        <span class="card-atalho-icon">
+            <i class="bi bi-file-earmark-pdf-fill"></i>
+        </span>
+        <h5>Meu Relatório</h5>
+        <p>Gere seu relatório com cursos inscritos, aulas, professor e notas.</p>
+        <span class="card-atalho-action">Gerar PDF <i class="bi bi-arrow-right"></i></span>
+    </a>
+</div>
 
         </div>
     </div>
