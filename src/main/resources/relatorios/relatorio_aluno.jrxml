@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_aluno" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d04777c-0a61-4de5-9a0a-162a42d2c347">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="228"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="760"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sistemacursos"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    c.nome AS curso,
+    p.nome AS professor,
+    i.data_inscricao AS data_inscricao,
+    COUNT(a.id_aula) AS total_aulas,
+    COALESCE(n.nota, 0) AS nota
+FROM inscricoes i
+INNER JOIN cursos c ON i.id_curso = c.id_curso
+INNER JOIN usuarios p ON c.id_professor = p.id_usuario
+LEFT JOIN aulas a ON c.id_curso = a.id_curso
+LEFT JOIN notas n 
+    ON n.id_usuario = i.id_usuario
+   AND n.id_curso = i.id_curso
+WHERE i.id_usuario = 1
+GROUP BY
+    c.id_curso,
+    c.nome,
+    p.nome,
+    i.data_inscricao,
+    n.nota
+ORDER BY c.nome]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
