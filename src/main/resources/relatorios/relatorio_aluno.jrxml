@@ -5,6 +5,7 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="228"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="760"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sistemacursos"/>
+	<parameter name="idAluno" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
     c.nome AS curso,
@@ -19,7 +20,7 @@ LEFT JOIN aulas a ON c.id_curso = a.id_curso
 LEFT JOIN notas n 
     ON n.id_usuario = i.id_usuario
    AND n.id_curso = i.id_curso
-WHERE i.id_usuario = 1
+WHERE i.id_usuario = $P{idAluno}
 GROUP BY
     c.id_curso,
     c.nome,
