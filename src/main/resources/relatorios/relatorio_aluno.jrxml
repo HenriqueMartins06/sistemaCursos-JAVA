@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_aluno" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d04777c-0a61-4de5-9a0a-162a42d2c347">
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="228"/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="760"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sistemacursos"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_aluno" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a347318-b005-4cfb-b44c-c2d00e64e975">
 	<parameter name="idAluno" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
@@ -29,28 +25,83 @@ GROUP BY
     n.nota
 ORDER BY c.nome]]>
 	</queryString>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<field name="curso" class="java.lang.String"/>
+	<field name="professor" class="java.lang.String"/>
+	<field name="data_inscricao" class="java.sql.Date"/>
+	<field name="total_aulas" class="java.lang.Long"/>
+	<field name="nota" class="java.lang.Double"/>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="60">
+			<staticText>
+				<reportElement x="0" y="10" width="555" height="30" uuid="5fe0033b-cd44-4516-93bc-555f1fa17785"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório do Aluno]]></text>
+			</staticText>
+		</band>
 	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="20" uuid="5878ac4f-82d2-4f23-ba42-a784f2d39e2b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Curso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="130" height="20" uuid="3d986187-ba1f-4eb0-8dc8-006e5ff5c556"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Professor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="0" width="95" height="20" uuid="d93aeda3-55d0-4d7a-bef1-9ba400d29670"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="0" width="85" height="20" uuid="70d06d2a-22c9-4d67-8086-4e52dc211ba5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aulas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="80" height="20" uuid="73a964a6-a2f0-4699-ac5c-f0152ddb70b3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nota]]></text>
+			</staticText>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="150" height="20" uuid="3d91aa85-5bc6-4fa7-ab4d-c9fd9a19faac"/>
+				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="130" height="20" uuid="7a472ee6-70eb-4709-883e-0828d7e6cf83"/>
+				<textFieldExpression><![CDATA[$F{professor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="280" y="0" width="95" height="20" uuid="7fc8939f-0b03-4c5d-86c5-8401da34b64d"/>
+				<textFieldExpression><![CDATA[$F{data_inscricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="85" height="20" uuid="236dee76-a291-4da9-8ac9-75709f1f99d7"/>
+				<textFieldExpression><![CDATA[$F{total_aulas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="460" y="0" width="80" height="20" uuid="d3ce35b8-bec3-49ae-b551-806c1454f362"/>
+				<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
