@@ -67,6 +67,15 @@
                     <p>Gerencie interações e acompanhe observações cadastradas.</p>
                 </a>
             </div>
+            
+             <div class="col-md-6 col-lg-3">
+                <a href="notas" class="card-atalho">
+                    <i class="bi bi-award-fill"></i>
+                    <h5>Notas</h5>
+                    <p>Cadastre e acompanhe as notas dos alunos por curso.</p>
+                </a>
+            </div>
+            
         </div>
     </div>
 </body>

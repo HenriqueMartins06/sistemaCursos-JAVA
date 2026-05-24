@@ -42,6 +42,7 @@
                     <li class="nav-item"><a class="nav-link" href="aulaAluno">Minhas Aulas</a></li>
                     <li class="nav-item"><a class="nav-link" href="inscricao">Inscrever-se</a></li>
                     <li class="nav-item"><a class="nav-link" href="notas">Minhas Notas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorioAluno">Relatório</a></li>
                 <% } %>
                 
                 <li class="nav-item"><a class="nav-link" href="comentarios">Comentários</a></li>
