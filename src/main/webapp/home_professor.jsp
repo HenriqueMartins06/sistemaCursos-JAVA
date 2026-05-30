@@ -68,11 +68,19 @@
                 </a>
             </div>
             
-             <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg-3">
                 <a href="notas" class="card-atalho">
                     <i class="bi bi-award-fill"></i>
                     <h5>Notas</h5>
                     <p>Cadastre e acompanhe as notas dos alunos por curso.</p>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <a href="relatorioProfessor" class="card-atalho">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                    <h5>Relatório</h5>
+                    <p>Gere um relatório PDF com os cursos, alunos inscritos e notas.</p>
                 </a>
             </div>
             

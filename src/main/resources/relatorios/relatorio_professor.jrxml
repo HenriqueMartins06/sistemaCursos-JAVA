@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_professor" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8af63066-0c0d-412e-9ae4-c87a0bdf4e64">
+	<parameter name="idProfessor" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    c.nome AS curso,
+    u.nome AS aluno,
+    i.data_inscricao AS data_inscricao,
+    COUNT(a.id_aula) AS total_aulas,
+    COALESCE(n.nota, 0) AS nota
+FROM cursos c
+INNER JOIN inscricoes i ON c.id_curso = i.id_curso
+INNER JOIN usuarios u ON i.id_usuario = u.id_usuario
+LEFT JOIN aulas a ON c.id_curso = a.id_curso
+LEFT JOIN notas n
+    ON n.id_usuario = i.id_usuario
+   AND n.id_curso = c.id_curso
+WHERE c.id_professor = $P{idProfessor}
+GROUP BY
+    c.id_curso,
+    c.nome,
+    u.nome,
+    i.data_inscricao,
+    n.nota
+ORDER BY c.nome, u.nome]]>
+	</queryString>
+	<field name="curso" class="java.lang.String"/>
+	<field name="aluno" class="java.lang.String"/>
+	<field name="data_inscricao" class="java.sql.Date"/>
+	<field name="total_aulas" class="java.lang.Long"/>
+	<field name="nota" class="java.lang.Double"/>
+	<title>
+		<band height="60">
+			<staticText>
+				<reportElement x="0" y="10" width="555" height="30" uuid="35703c48-162b-4414-be7d-08fd8f784198"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório do Professor]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="20" uuid="b51b469a-5fbb-4bea-a9d6-5f27a2f60d03"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Curso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="130" height="20" uuid="c71e2d17-4602-4d3e-9084-e562da3643f5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aluno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="0" width="95" height="20" uuid="16562dac-922c-44a2-8f9a-4d28429ab36d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="0" width="85" height="20" uuid="04193193-af13-4605-a705-0520d8492138"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aulas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="80" height="20" uuid="4cc41888-17a3-4955-9433-bb8c293f3ff7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nota]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="150" height="20" uuid="047b3bf3-4428-4d27-a38f-6c4d449ac422"/>
+				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="130" height="20" uuid="ecd11c94-7931-4740-b4fa-324b6b4ce7b3"/>
+				<textFieldExpression><![CDATA[$F{aluno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="280" y="0" width="95" height="20" uuid="3ac72bee-8885-4889-9cd9-e09fe83ba3df"/>
+				<textFieldExpression><![CDATA[$F{data_inscricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="85" height="20" uuid="4be8faca-78a7-4661-843c-0a20a9b3d21c"/>
+				<textFieldExpression><![CDATA[$F{total_aulas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="460" y="0" width="80" height="20" uuid="5ba0496c-52fc-485f-9494-1bff9c0a9cf9"/>
+				<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
