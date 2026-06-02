@@ -20,66 +20,64 @@
         <![CDATA[
 SELECT
     c.nome AS curso,
-    COALESCE(u.nome, 'Sem aluno inscrito') AS aluno,
-    i.data_inscricao AS data_inscricao,
-    n.nota AS nota,
-    CASE
-        WHEN i.id_usuario IS NULL THEN 'Sem aluno'
-        WHEN n.nota IS NULL THEN 'Sem nota'
-        WHEN n.nota >= 6 THEN 'Aprovado'
-        ELSE 'Reprovado'
-    END AS situacao
+
+    (SELECT COUNT(*)
+     FROM inscricoes i
+     WHERE i.id_curso = c.id_curso) AS total_alunos,
+
+    (SELECT COUNT(*)
+     FROM aulas a
+     WHERE a.id_curso = c.id_curso) AS total_aulas,
+
+    (SELECT AVG(n.nota)
+     FROM notas n
+     WHERE n.id_curso = c.id_curso) AS media_turma
+
 FROM cursos c
-LEFT JOIN inscricoes i ON c.id_curso = i.id_curso
-LEFT JOIN usuarios u ON i.id_usuario = u.id_usuario
-LEFT JOIN notas n
-    ON n.id_usuario = i.id_usuario
-   AND n.id_curso = c.id_curso
 WHERE c.id_professor = $P{idProfessor}
-ORDER BY c.nome, u.nome
+ORDER BY c.nome
         ]]>
     </queryString>
 
     <field name="curso" class="java.lang.String"/>
-    <field name="aluno" class="java.lang.String"/>
-    <field name="data_inscricao" class="java.sql.Date"/>
-    <field name="nota" class="java.lang.Double"/>
-    <field name="situacao" class="java.lang.String"/>
+    <field name="total_alunos" class="java.lang.Long"/>
+    <field name="total_aulas" class="java.lang.Long"/>
+    <field name="media_turma" class="java.lang.Double"/>
 
     <title>
         <band height="118">
             <rectangle>
-                <reportElement mode="Opaque" x="0" y="0" width="555" height="58" backcolor="#1E3A8A" uuid="6cce2d0b-3314-48a7-9d75-111111111111"/>
+                <reportElement mode="Opaque" x="0" y="0" width="555" height="58" backcolor="#1E3A8A" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa1"/>
                 <graphicElement>
                     <pen lineWidth="0"/>
                 </graphicElement>
             </rectangle>
 
             <staticText>
-                <reportElement forecolor="#FFFFFF" x="20" y="10" width="515" height="25" uuid="6cce2d0b-3314-48a7-9d75-222222222222"/>
+                <reportElement forecolor="#FFFFFF" x="20" y="10" width="515" height="25" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa2"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="17" isBold="true"/>
                 </textElement>
-                <text><![CDATA[RELATÓRIO DE ACOMPANHAMENTO DAS TURMAS]]></text>
+                <text><![CDATA[RELATÓRIO GERAL DAS TURMAS]]></text>
             </staticText>
 
             <staticText>
-                <reportElement forecolor="#DDE7FF" x="20" y="34" width="515" height="16" uuid="6cce2d0b-3314-48a7-9d75-333333333333"/>
+                <reportElement forecolor="#DDE7FF" x="20" y="34" width="515" height="16" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa3"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA[Cursos, alunos inscritos, notas lançadas e situação acadêmica]]></text>
+                <text><![CDATA[Cursos, alunos inscritos, total de aulas e média da turma]]></text>
             </staticText>
 
             <rectangle>
-                <reportElement mode="Opaque" x="0" y="70" width="555" height="32" backcolor="#F4F7FF" uuid="6cce2d0b-3314-48a7-9d75-444444444444"/>
+                <reportElement mode="Opaque" x="0" y="70" width="555" height="32" backcolor="#F4F7FF" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa4"/>
                 <graphicElement>
                     <pen lineWidth="0.5" lineColor="#D6E2FF"/>
                 </graphicElement>
             </rectangle>
 
             <staticText>
-                <reportElement x="14" y="78" width="65" height="16" uuid="6cce2d0b-3314-48a7-9d75-555555555555"/>
+                <reportElement x="14" y="78" width="65" height="16" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa5"/>
                 <textElement verticalAlignment="Middle">
                     <font size="9" isBold="true"/>
                 </textElement>
@@ -87,7 +85,7 @@ ORDER BY c.nome, u.nome
             </staticText>
 
             <textField>
-                <reportElement x="80" y="78" width="245" height="16" uuid="6cce2d0b-3314-48a7-9d75-666666666666"/>
+                <reportElement x="80" y="78" width="245" height="16" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa6"/>
                 <textElement verticalAlignment="Middle">
                     <font size="9"/>
                 </textElement>
@@ -95,7 +93,7 @@ ORDER BY c.nome, u.nome
             </textField>
 
             <staticText>
-                <reportElement x="350" y="78" width="92" height="16" uuid="6cce2d0b-3314-48a7-9d75-777777777777"/>
+                <reportElement x="350" y="78" width="92" height="16" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa7"/>
                 <textElement verticalAlignment="Middle">
                     <font size="9" isBold="true"/>
                 </textElement>
@@ -103,7 +101,7 @@ ORDER BY c.nome, u.nome
             </staticText>
 
             <textField>
-                <reportElement x="443" y="78" width="95" height="16" uuid="6cce2d0b-3314-48a7-9d75-888888888888"/>
+                <reportElement x="443" y="78" width="95" height="16" uuid="aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaa8"/>
                 <textElement verticalAlignment="Middle">
                     <font size="9"/>
                 </textElement>
@@ -115,14 +113,14 @@ ORDER BY c.nome, u.nome
     <columnHeader>
         <band height="30">
             <rectangle>
-                <reportElement mode="Opaque" x="0" y="0" width="555" height="26" backcolor="#EAF1FF" uuid="6cce2d0b-3314-48a7-9d75-999999999999"/>
+                <reportElement mode="Opaque" x="0" y="0" width="555" height="26" backcolor="#EAF1FF" uuid="bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbb1"/>
                 <graphicElement>
                     <pen lineWidth="0.5" lineColor="#9DB4E8"/>
                 </graphicElement>
             </rectangle>
 
             <staticText>
-                <reportElement x="0" y="0" width="140" height="26" uuid="7cce2d0b-3314-48a7-9d75-111111111111"/>
+                <reportElement x="0" y="0" width="210" height="26" uuid="bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbb2"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#9DB4E8"/>
                 </box>
@@ -133,47 +131,36 @@ ORDER BY c.nome, u.nome
             </staticText>
 
             <staticText>
-                <reportElement x="140" y="0" width="140" height="26" uuid="7cce2d0b-3314-48a7-9d75-222222222222"/>
+                <reportElement x="210" y="0" width="115" height="26" uuid="bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbb3"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#9DB4E8"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="9" isBold="true"/>
                 </textElement>
-                <text><![CDATA[Aluno]]></text>
+                <text><![CDATA[Alunos inscritos]]></text>
             </staticText>
 
             <staticText>
-                <reportElement x="280" y="0" width="95" height="26" uuid="7cce2d0b-3314-48a7-9d75-333333333333"/>
+                <reportElement x="325" y="0" width="110" height="26" uuid="bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbb4"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#9DB4E8"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="9" isBold="true"/>
                 </textElement>
-                <text><![CDATA[Inscrição]]></text>
+                <text><![CDATA[Total de aulas]]></text>
             </staticText>
 
             <staticText>
-                <reportElement x="375" y="0" width="70" height="26" uuid="7cce2d0b-3314-48a7-9d75-444444444444"/>
+                <reportElement x="435" y="0" width="120" height="26" uuid="bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbb5"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#9DB4E8"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="9" isBold="true"/>
                 </textElement>
-                <text><![CDATA[Nota]]></text>
-            </staticText>
-
-            <staticText>
-                <reportElement x="445" y="0" width="110" height="26" uuid="7cce2d0b-3314-48a7-9d75-555555555555"/>
-                <box>
-                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
-                </box>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="9" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Situação]]></text>
+                <text><![CDATA[Média da turma]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -181,7 +168,7 @@ ORDER BY c.nome, u.nome
     <detail>
         <band height="28">
             <textField isStretchWithOverflow="true">
-                <reportElement x="0" y="0" width="140" height="26" uuid="8cce2d0b-3314-48a7-9d75-111111111111"/>
+                <reportElement x="0" y="0" width="210" height="26" uuid="cccccccc-cccc-4ccc-cccc-ccccccccccc1"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#D6E2FF"/>
                 </box>
@@ -192,49 +179,37 @@ ORDER BY c.nome, u.nome
                 <textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
             </textField>
 
-            <textField isStretchWithOverflow="true">
-                <reportElement x="140" y="0" width="140" height="26" uuid="8cce2d0b-3314-48a7-9d75-222222222222"/>
-                <box>
-                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
-                </box>
-                <textElement verticalAlignment="Middle">
-                    <font size="8"/>
-                    <paragraph leftIndent="4"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{aluno}]]></textFieldExpression>
-            </textField>
-
             <textField>
-                <reportElement x="280" y="0" width="95" height="26" uuid="8cce2d0b-3314-48a7-9d75-333333333333"/>
+                <reportElement x="210" y="0" width="115" height="26" uuid="cccccccc-cccc-4ccc-cccc-ccccccccccc2"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#D6E2FF"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{data_inscricao} == null ? "-" : new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{data_inscricao})]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{total_alunos}]]></textFieldExpression>
             </textField>
 
             <textField>
-                <reportElement x="375" y="0" width="70" height="26" uuid="8cce2d0b-3314-48a7-9d75-444444444444"/>
+                <reportElement x="325" y="0" width="110" height="26" uuid="cccccccc-cccc-4ccc-cccc-ccccccccccc3"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#D6E2FF"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{nota} == null ? "-" : String.format(new java.util.Locale("pt", "BR"), "%.2f", $F{nota})]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{total_aulas}]]></textFieldExpression>
             </textField>
 
             <textField>
-                <reportElement x="445" y="0" width="110" height="26" uuid="8cce2d0b-3314-48a7-9d75-555555555555"/>
+                <reportElement x="435" y="0" width="120" height="26" uuid="cccccccc-cccc-4ccc-cccc-ccccccccccc4"/>
                 <box>
                     <pen lineWidth="0.5" lineColor="#D6E2FF"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="8" isBold="true"/>
+                    <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{media_turma} == null ? "-" : String.format(new java.util.Locale("pt", "BR"), "%.2f", $F{media_turma})]]></textFieldExpression>
             </textField>
         </band>
     </detail>
@@ -242,22 +217,22 @@ ORDER BY c.nome, u.nome
     <pageFooter>
         <band height="25">
             <line>
-                <reportElement x="0" y="0" width="555" height="1" uuid="9cce2d0b-3314-48a7-9d75-111111111111"/>
+                <reportElement x="0" y="0" width="555" height="1" uuid="dddddddd-dddd-4ddd-dddd-ddddddddddd1"/>
                 <graphicElement>
                     <pen lineColor="#D6E2FF"/>
                 </graphicElement>
             </line>
 
             <staticText>
-                <reportElement x="0" y="6" width="280" height="14" forecolor="#6B7280" uuid="9cce2d0b-3314-48a7-9d75-222222222222"/>
+                <reportElement x="0" y="6" width="300" height="14" forecolor="#6B7280" uuid="dddddddd-dddd-4ddd-dddd-ddddddddddd2"/>
                 <textElement verticalAlignment="Middle">
                     <font size="8"/>
                 </textElement>
-                <text><![CDATA[Sistema de Cursos Online - Relatório do Professor]]></text>
+                <text><![CDATA[Sistema de Cursos Online - Relatório Geral das Turmas]]></text>
             </staticText>
 
             <textField>
-                <reportElement x="455" y="6" width="100" height="14" forecolor="#6B7280" uuid="9cce2d0b-3314-48a7-9d75-333333333333"/>
+                <reportElement x="455" y="6" width="100" height="14" forecolor="#6B7280" uuid="dddddddd-dddd-4ddd-dddd-ddddddddddd3"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font size="8"/>
                 </textElement>

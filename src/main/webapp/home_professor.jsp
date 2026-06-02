@@ -77,7 +77,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <a href="relatorioProfessor" class="card-atalho">
+				<a href="relatorioProfessor" class="card-atalho" target="_blank" rel="noopener noreferrer">
                     <i class="bi bi-file-earmark-pdf-fill"></i>
                     <h5>Relatório</h5>
                     <p>Gere um relatório PDF com os cursos, alunos inscritos e notas.</p>

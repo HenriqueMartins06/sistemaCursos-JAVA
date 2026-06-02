@@ -81,7 +81,7 @@
             </div>
             
             <div class="col-md-6 col-lg-3">
-    <a href="relatorioAluno" class="card-atalho">
+    <a href="relatorioAluno" class="card-atalho" target="_blank" rel="noopener noreferrer">
         <span class="card-atalho-icon">
             <i class="bi bi-file-earmark-pdf-fill"></i>
         </span>
