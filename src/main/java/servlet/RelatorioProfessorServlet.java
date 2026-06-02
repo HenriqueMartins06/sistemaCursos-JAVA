@@ -38,6 +38,7 @@ public class RelatorioProfessorServlet extends HttpServlet {
 
         try {
             Integer idProfessor = (Integer) session.getAttribute("id_usuario");
+            String nomeProfessor = (String) session.getAttribute("nome");
 
             conn = Conexao.conectar();
 
@@ -53,6 +54,7 @@ public class RelatorioProfessorServlet extends HttpServlet {
 
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("idProfessor", idProfessor);
+            parametros.put("nomeProfessor", nomeProfessor);
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(
                     jasperReport,

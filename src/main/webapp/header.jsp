@@ -37,6 +37,7 @@
                     <li class="nav-item"><a class="nav-link" href="curso">Cursos</a></li>
                     <li class="nav-item"><a class="nav-link" href="aula">Aulas</a></li>
                     <li class="nav-item"><a class="nav-link" href="notas">Notas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorioProfessor">Relatório</a></li>
                 <% } else if (tipo != null && tipo == 2) { %>
                     <li class="nav-item"><a class="nav-link" href="home_aluno.jsp">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="aulaAluno">Minhas Aulas</a></li>

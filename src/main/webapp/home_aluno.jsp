@@ -74,7 +74,7 @@
                     <span class="card-atalho-icon">
                         <i class="bi bi-chat-left-text-fill"></i>
                     </span>
-                    <h5>Comentários</h5>3 
+                    <h5>Comentários</h5>
                     <p>Cadastre comentários e participe das interações no ambiente.</p>
                     <span class="card-atalho-action">Acessar <i class="bi bi-arrow-right"></i></span>
                 </a>

@@ -53,6 +53,7 @@ public class RelatorioAlunoServlet extends HttpServlet {
 
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("idAluno", idAluno);
+            parametros.put("nomeAluno", session.getAttribute("nome"));
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(
                     jasperReport,

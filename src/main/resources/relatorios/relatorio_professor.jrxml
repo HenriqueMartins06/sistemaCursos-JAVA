@@ -1,193 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_professor" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c7a30ed4-0f59-4dbb-8fcb-8a777ee11b22">
-	<parameter name="idProfessor" class="java.lang.Integer"/>
-	<queryString language="SQL">
-		<![CDATA[SELECT
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="relatorio_professor"
+              pageWidth="595"
+              pageHeight="842"
+              whenNoDataType="AllSectionsNoDetail"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="c7a30ed4-0f59-4dbb-8fcb-8a777ee11b22">
+
+    <parameter name="idProfessor" class="java.lang.Integer"/>
+    <parameter name="nomeProfessor" class="java.lang.String"/>
+
+    <queryString language="SQL">
+        <![CDATA[
+SELECT
     c.nome AS curso,
-    u.nome AS aluno,
+    COALESCE(u.nome, 'Sem aluno inscrito') AS aluno,
     i.data_inscricao AS data_inscricao,
-    COUNT(a.id_aula) AS total_aulas,
-    COALESCE(n.nota, 0) AS nota
+    n.nota AS nota,
+    CASE
+        WHEN i.id_usuario IS NULL THEN 'Sem aluno'
+        WHEN n.nota IS NULL THEN 'Sem nota'
+        WHEN n.nota >= 6 THEN 'Aprovado'
+        ELSE 'Reprovado'
+    END AS situacao
 FROM cursos c
-INNER JOIN inscricoes i ON c.id_curso = i.id_curso
-INNER JOIN usuarios u ON i.id_usuario = u.id_usuario
-LEFT JOIN aulas a ON c.id_curso = a.id_curso
+LEFT JOIN inscricoes i ON c.id_curso = i.id_curso
+LEFT JOIN usuarios u ON i.id_usuario = u.id_usuario
 LEFT JOIN notas n
     ON n.id_usuario = i.id_usuario
    AND n.id_curso = c.id_curso
 WHERE c.id_professor = $P{idProfessor}
-GROUP BY
-    c.id_curso,
-    c.nome,
-    u.nome,
-    i.data_inscricao,
-    n.nota
-ORDER BY c.nome, u.nome]]>
-	</queryString>
-	<field name="curso" class="java.lang.String"/>
-	<field name="aluno" class="java.lang.String"/>
-	<field name="data_inscricao" class="java.sql.Date"/>
-	<field name="total_aulas" class="java.lang.Long"/>
-	<field name="nota" class="java.lang.Double"/>
-	<title>
-		<band height="85">
-			<staticText>
-				<reportElement x="0" y="5" width="555" height="30" uuid="c121eb4d-8763-49e1-875a-3a24226fbdec"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[RELATÓRIO DE DESEMPENHO DOS ALUNOS]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="40" width="110" height="18" uuid="ee940fdc-7f9d-4266-8bd9-e5a0b1cce588"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Data de emissão:]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="110" y="40" width="120" height="18" uuid="b5ebb472-7907-45e1-b725-9df6991b71d5"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="70" width="555" height="1" uuid="d54d1da9-79a7-407b-bbb5-31f551c9bf3a"/>
-			</line>
-		</band>
-	</title>
-	<columnHeader>
-		<band height="28">
-			<rectangle>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="24" backcolor="#E6E6E6" uuid="8c0700d5-bdbc-4731-afc3-c07187451abe"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="0" y="0" width="150" height="24" uuid="98f72009-93d4-40dd-a0f6-6ab2dcb95374"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Curso]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="150" y="0" width="140" height="24" uuid="d2576e4a-7460-4562-ac52-9a91c6dbab93"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Aluno]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="290" y="0" width="95" height="24" uuid="1a810035-2f48-4c5d-b633-54365a105eed"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Inscrição]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="385" y="0" width="80" height="24" uuid="c99f52db-e0d2-4d21-b6bd-69b9498095b9"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Aulas]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="465" y="0" width="90" height="24" uuid="8a6abf23-f5f1-4214-ad96-3b24db526f5d"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Nota]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="26">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="150" height="24" uuid="d89ad557-9cd1-4473-bec6-67b2e23d7366"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="150" y="0" width="140" height="24" uuid="2858ae8f-b7f5-4972-9d20-1549a8d3e90c"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{aluno}]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="290" y="0" width="95" height="24" uuid="6f5b8eff-e62a-4999-a308-0e51f347c766"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{data_inscricao}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="385" y="0" width="80" height="24" uuid="b128de4c-6ba8-4539-a3db-62593cf31b15"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{total_aulas}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="465" y="0" width="90" height="24" uuid="993f9490-9f9b-46c5-863c-432126a3a4f4"/>
-				<box>
-					<pen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
-	<pageFooter>
-		<band height="25">
-			<line>
-				<reportElement x="0" y="0" width="555" height="1" uuid="6b6c6814-0304-49f9-b643-087fe6bcae69"/>
-			</line>
-			<staticText>
-				<reportElement x="0" y="5" width="200" height="15" uuid="45ebf4f2-3a8a-4612-85d7-e45849af1ee7"/>
-				<textElement verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Sistema de Cursos Online]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="455" y="5" width="100" height="15" uuid="f434a3f5-a070-42db-8ac7-6d282f18dc7a"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageFooter>
+ORDER BY c.nome, u.nome
+        ]]>
+    </queryString>
+
+    <field name="curso" class="java.lang.String"/>
+    <field name="aluno" class="java.lang.String"/>
+    <field name="data_inscricao" class="java.sql.Date"/>
+    <field name="nota" class="java.lang.Double"/>
+    <field name="situacao" class="java.lang.String"/>
+
+    <title>
+        <band height="118">
+            <rectangle>
+                <reportElement mode="Opaque" x="0" y="0" width="555" height="58" backcolor="#1E3A8A" uuid="6cce2d0b-3314-48a7-9d75-111111111111"/>
+                <graphicElement>
+                    <pen lineWidth="0"/>
+                </graphicElement>
+            </rectangle>
+
+            <staticText>
+                <reportElement forecolor="#FFFFFF" x="20" y="10" width="515" height="25" uuid="6cce2d0b-3314-48a7-9d75-222222222222"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="17" isBold="true"/>
+                </textElement>
+                <text><![CDATA[RELATÓRIO DE ACOMPANHAMENTO DAS TURMAS]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement forecolor="#DDE7FF" x="20" y="34" width="515" height="16" uuid="6cce2d0b-3314-48a7-9d75-333333333333"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <text><![CDATA[Cursos, alunos inscritos, notas lançadas e situação acadêmica]]></text>
+            </staticText>
+
+            <rectangle>
+                <reportElement mode="Opaque" x="0" y="70" width="555" height="32" backcolor="#F4F7FF" uuid="6cce2d0b-3314-48a7-9d75-444444444444"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
+                </graphicElement>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="14" y="78" width="65" height="16" uuid="6cce2d0b-3314-48a7-9d75-555555555555"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Professor:]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="80" y="78" width="245" height="16" uuid="6cce2d0b-3314-48a7-9d75-666666666666"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{nomeProfessor} == null ? "Não informado" : $P{nomeProfessor}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="350" y="78" width="92" height="16" uuid="6cce2d0b-3314-48a7-9d75-777777777777"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Data de emissão:]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="443" y="78" width="95" height="16" uuid="6cce2d0b-3314-48a7-9d75-888888888888"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <rectangle>
+                <reportElement mode="Opaque" x="0" y="0" width="555" height="26" backcolor="#EAF1FF" uuid="6cce2d0b-3314-48a7-9d75-999999999999"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
+                </graphicElement>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="0" y="0" width="140" height="26" uuid="7cce2d0b-3314-48a7-9d75-111111111111"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Curso]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="140" y="0" width="140" height="26" uuid="7cce2d0b-3314-48a7-9d75-222222222222"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Aluno]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="280" y="0" width="95" height="26" uuid="7cce2d0b-3314-48a7-9d75-333333333333"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Inscrição]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="375" y="0" width="70" height="26" uuid="7cce2d0b-3314-48a7-9d75-444444444444"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nota]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="445" y="0" width="110" height="26" uuid="7cce2d0b-3314-48a7-9d75-555555555555"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#9DB4E8"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Situação]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="28">
+            <textField isStretchWithOverflow="true">
+                <reportElement x="0" y="0" width="140" height="26" uuid="8cce2d0b-3314-48a7-9d75-111111111111"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                    <paragraph leftIndent="4"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
+            </textField>
+
+            <textField isStretchWithOverflow="true">
+                <reportElement x="140" y="0" width="140" height="26" uuid="8cce2d0b-3314-48a7-9d75-222222222222"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                    <paragraph leftIndent="4"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{aluno}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="280" y="0" width="95" height="26" uuid="8cce2d0b-3314-48a7-9d75-333333333333"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{data_inscricao} == null ? "-" : new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{data_inscricao})]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="375" y="0" width="70" height="26" uuid="8cce2d0b-3314-48a7-9d75-444444444444"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nota} == null ? "-" : String.format(new java.util.Locale("pt", "BR"), "%.2f", $F{nota})]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="445" y="0" width="110" height="26" uuid="8cce2d0b-3314-48a7-9d75-555555555555"/>
+                <box>
+                    <pen lineWidth="0.5" lineColor="#D6E2FF"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="25">
+            <line>
+                <reportElement x="0" y="0" width="555" height="1" uuid="9cce2d0b-3314-48a7-9d75-111111111111"/>
+                <graphicElement>
+                    <pen lineColor="#D6E2FF"/>
+                </graphicElement>
+            </line>
+
+            <staticText>
+                <reportElement x="0" y="6" width="280" height="14" forecolor="#6B7280" uuid="9cce2d0b-3314-48a7-9d75-222222222222"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Sistema de Cursos Online - Relatório do Professor]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="455" y="6" width="100" height="14" forecolor="#6B7280" uuid="9cce2d0b-3314-48a7-9d75-333333333333"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
 </jasperReport>
